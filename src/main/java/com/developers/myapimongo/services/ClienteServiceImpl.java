@@ -11,20 +11,25 @@ import reactor.core.publisher.Mono;
 public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
-    ClienteRespository playlistRespository;
+    ClienteRespository clienteRespository;
 
     @Override
     public Flux<Cliente> findAll() {
-        return playlistRespository.findAll();
+        return clienteRespository.findAll();
     }
 
     @Override
     public Mono<Cliente> findById(String id) {
-        return playlistRespository.findById(id);
+        return clienteRespository.findById(id);
     }
 
     @Override
     public Mono<Cliente> save(Cliente playlist) {
-        return playlistRespository.save(playlist);
+        return clienteRespository.save(playlist);
+    }
+
+    @Override
+    public Mono<Void> deleteById(String id) {
+        return clienteRespository.deleteById(id);
     }
 }

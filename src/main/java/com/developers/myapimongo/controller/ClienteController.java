@@ -5,7 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import com.developers.myapimongo.api.ClienteApi;
+import com.developers.myapimongo.repositories.ClienteRespository;
+import com.developers.myapimongo.repositories.ClienteRespositoryDelete;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,8 @@ public class ClienteController implements ClienteApi {
 
     @Autowired
     ClienteService clienteService;
+//    @Autowired
+//    ClienteRespositoryDelete clienteRespositoryDelete;
 
     public Mono<Cliente> insertCliente(@RequestBody Cliente cliente) {
         cliente.setDate_time(LocalDate.now());
@@ -31,8 +36,8 @@ public class ClienteController implements ClienteApi {
     }
 
     @Override
-    public Mono<Cliente> deleteCliente(String id) {
-        return null;
+    public Mono<Void> deleteCliente(String id) {
+            return clienteService.deleteById(id);
     }
 
     public Mono<Cliente> findClienteOne(@PathVariable String id) {

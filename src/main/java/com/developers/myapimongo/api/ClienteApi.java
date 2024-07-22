@@ -4,6 +4,7 @@ import com.developers.myapimongo.documents.Cliente;
 import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -24,8 +25,8 @@ public interface ClienteApi {
     Flux<Cliente> findCliente();
 
     @ResponseStatus(HttpStatus.CREATED)
-    @DeleteMapping(value = "/delete")
-    Mono<Cliente> deleteCliente(@PathVariable String id);
+    @DeleteMapping(value = "/delete/{id}")
+    Mono<Void> deleteCliente(@PathVariable String id);
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/findOne/{id}")

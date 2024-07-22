@@ -13,4 +13,6 @@ public interface ClienteService {
     Mono<Cliente> findById(String id);
 
     Mono<Cliente> save(Cliente pessoa);
+
+    Mono<Void> deleteById(String id);
 }
