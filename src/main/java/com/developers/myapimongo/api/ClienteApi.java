@@ -17,16 +17,20 @@ import java.util.List;
 public interface ClienteApi {
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/insert")
+    @PostMapping(value = "/")
     Mono<Cliente> insertCliente(@RequestBody Cliente cliente);
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/find")
-    Flux<Cliente> findCliente();
+    @GetMapping(value = "/")
+    Flux<Cliente> findClientes();
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping(value = "/{id}")
+    Mono<ResponseEntity<Cliente>> deleteCliente(@PathVariable String id);
 
     @ResponseStatus(HttpStatus.CREATED)
-    @DeleteMapping(value = "/delete/{id}")
-    Mono<Void> deleteCliente(@PathVariable String id);
+    @PutMapping(value = "/{id}")
+    Mono<ResponseEntity<Cliente>> updateCliente(@PathVariable String id, @RequestBody Cliente cliente);
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/findOne/{id}")

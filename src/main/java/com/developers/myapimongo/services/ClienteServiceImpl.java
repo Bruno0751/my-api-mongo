@@ -24,6 +24,18 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    public Mono<Cliente> updateCliente(String id, Cliente cliente) {
+        return clienteRespository.findById(id).flatMap(
+                existingCliente -> {
+                    existingCliente.setName(cliente.getName());
+                    existingCliente.setOld_year(cliente.getOld_year());
+                    existingCliente.setHeight(cliente.getHeight());
+                    existingCliente.setDate_time(cliente.getDate_time());
+                    return clienteRespository.save(existingCliente);
+                });
+    }
+
+    @Override
     public Mono<Cliente> save(Cliente playlist) {
         return clienteRespository.save(playlist);
     }
@@ -31,5 +43,10 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public Mono<Void> deleteById(String id) {
         return clienteRespository.deleteById(id);
+    }
+
+    @Override
+    public Mono<Boolean> existsById(String id) {
+        return clienteRespository.existsById(id);
     }
 }

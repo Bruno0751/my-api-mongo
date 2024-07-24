@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import com.developers.myapimongo.api.ClienteApi;
-import com.developers.myapimongo.repositories.ClienteRespository;
-import com.developers.myapimongo.repositories.ClienteRespositoryDelete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,24 +21,53 @@ public class ClienteController implements ClienteApi {
 
     @Autowired
     ClienteService clienteService;
-//    @Autowired
-//    ClienteRespositoryDelete clienteRespositoryDelete;
 
     public Mono<Cliente> insertCliente(@RequestBody Cliente cliente) {
+        System.out.println("INTO insertCliente");
         cliente.setDate_time(LocalDate.now());
         return clienteService.save(cliente);
     }
 
-    public Flux<Cliente> findCliente() {
+    public Flux<Cliente> findClientes() {
+        System.out.println("INTO findClientes");
         return clienteService.findAll();
     }
 
     @Override
-    public Mono<Void> deleteCliente(String id) {
-            return clienteService.deleteById(id);
+    public Mono<ResponseEntity<Cliente>> deleteCliente(String id) {
+        System.out.println("INTO deleteCliente");
+        clienteService.existsById(id).flatMap(exists -> {
+            if (exists) {
+                clienteService.deleteById(id);
+                return Mono.just("Cliente deletado");
+            } else {
+                return Mono.just("Cliente não existe");
+            }
+        }).subscribe(result -> {
+            System.out.println(result);
+        });
+        return null;
+    }
+
+    @Override
+    public Mono<ResponseEntity<Cliente>> updateCliente(String id, Cliente cliente) {
+        System.out.println("INTO updateCliente");
+        clienteService.existsById(id).flatMap(exists -> {
+            if (exists) {
+                cliente.setDate_time(LocalDate.now());
+                return clienteService.updateCliente(id, cliente)
+                        .map(updatedCliente -> ResponseEntity.ok(updatedCliente));
+            } else {
+                return Mono.just("Cliente não existe");
+            }
+        }).subscribe(result -> {
+            System.out.println(result);
+        });
+        return null;
     }
 
     public Mono<Cliente> findClienteOne(@PathVariable String id) {
+        System.out.println("INTO findClienteOne");
         return clienteService.findById(id);
     }
 
