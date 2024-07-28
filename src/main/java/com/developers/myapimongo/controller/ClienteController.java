@@ -34,19 +34,8 @@ public class ClienteController implements ClienteApi {
     }
 
     @Override
-    public Mono<ResponseEntity<Cliente>> deleteCliente(String id) {
-        System.out.println("INTO deleteCliente");
-        clienteService.existsById(id).flatMap(exists -> {
-            if (exists) {
-                clienteService.deleteById(id);
-                return Mono.just("Cliente deletado");
-            } else {
-                return Mono.just("Cliente não existe");
-            }
-        }).subscribe(result -> {
-            System.out.println(result);
-        });
-        return null;
+    public Mono<Void> deleteCliente(String id) {
+        return  clienteService.deleteById(id);
     }
 
     @Override

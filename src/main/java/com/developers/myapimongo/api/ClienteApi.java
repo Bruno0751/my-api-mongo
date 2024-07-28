@@ -26,7 +26,7 @@ public interface ClienteApi {
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{id}")
-    Mono<ResponseEntity<Cliente>> deleteCliente(@PathVariable String id);
+    Mono<Void> deleteCliente(@PathVariable String id);
 
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping(value = "/{id}")
