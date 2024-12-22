@@ -22,8 +22,8 @@ public class ClienteController implements ClienteApi {
     @Autowired
     ClienteService clienteService;
 
-    public Mono<Cliente> insertCliente(@RequestBody Cliente cliente) {
-        System.out.println("INTO insertCliente");
+    public Mono<Cliente> insert(@RequestBody Cliente cliente) {
+        System.out.println("INTO insert");
         cliente.setDate_time(LocalDate.now());
         return clienteService.save(cliente);
     }
