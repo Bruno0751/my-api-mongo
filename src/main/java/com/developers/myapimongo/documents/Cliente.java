@@ -1,7 +1,8 @@
 package com.developers.myapimongo.documents;
 
-//import jakarta.validation.constraints.NotBlank;
-//import jakarta.validation.constraints.NotNull;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
@@ -21,13 +22,14 @@ public class Cliente {
 
     @Id
     private String id;
-//    @NotBlank
-//    @NonNull
+    @NotBlank(message = "O campo 'name' não pode ser vazio. Por favor, forneça um valor válido.")
     private String name;
+    @Nullable
     private String old_year;
+    @Nullable
     private String height;
-//    @NotBlank
-//    @NonNull
+    @NotBlank(message = "O campo 'date_time" +
+            "' não pode ser vazio. Por favor, forneça um valor válido.")
     private LocalDate date_time;
 
 }

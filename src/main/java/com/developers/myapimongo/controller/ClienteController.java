@@ -5,6 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import com.developers.myapimongo.api.ClienteApi;
+import com.developers.myapimongo.cliente.EmailCliente;
+import com.developers.myapimongo.documents.dto.EmailRecordDto;
+import com.developers.myapimongo.repositories.ClienteRespository;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,26 +25,35 @@ public class ClienteController implements ClienteApi {
 
     @Autowired
     ClienteService clienteService;
+    @Autowired
+    ClienteRespository clienteRespository;
+    @Autowired
+    EmailCliente emailCliente;
 
-    public Mono<Cliente> insert(@RequestBody Cliente cliente) {
-        System.out.println("INTO insert");
+    @Override
+    public Mono<Cliente> insert(Cliente cliente) {
         cliente.setDate_time(LocalDate.now());
-        return clienteService.save(cliente);
+        Mono<Cliente> mCliente = clienteRespository.save(cliente);
+//        emailCliente.sendEmail(this.createMessageEmail(mCliente));
+        return mCliente;
     }
 
-    public Flux<Cliente> findClientes() {
-        System.out.println("INTO findClientes");
-        return clienteService.findAll();
+    private EmailRecordDto createMessageEmail(Cliente cliente) {
+        return new EmailRecordDto("", "", "", "");
     }
 
     @Override
-    public Mono<Void> deleteCliente(String id) {
+    public Flux<Cliente> findAll() {
+        return null;
+    }
+
+    @Override
+    public Mono<Void> delete(String id) {
         return  clienteService.deleteById(id);
     }
 
     @Override
-    public Mono<ResponseEntity<Cliente>> updateCliente(String id, Cliente cliente) {
-        System.out.println("INTO updateCliente");
+    public Mono<ResponseEntity<Cliente>> update(String id, Cliente cliente) {
         clienteService.existsById(id).flatMap(exists -> {
             if (exists) {
                 cliente.setDate_time(LocalDate.now());
@@ -55,19 +68,19 @@ public class ClienteController implements ClienteApi {
         return null;
     }
 
-    public Mono<Cliente> findClienteOne(@PathVariable String id) {
+    public Mono<Cliente> findOne(@PathVariable String id) {
         System.out.println("INTO findClienteOne");
         return clienteService.findById(id);
     }
 
-    public Flux<Tuple2<Long, Cliente>> findClienteByWebflux() {
+    public Flux<Tuple2<Long, Cliente>> findByWebFlux() {
         System.out.println("---Start get cliente by WEBFLUX--- " + LocalDateTime.now());
         Flux<Long> interval = Flux.interval(Duration.ofSeconds(10));
         Flux<Cliente> clientetFlux = clienteService.findAll();
         return Flux.zip(interval, clientetFlux);
     }
 
-    public List<String> findClienteByMvc() throws InterruptedException {
+    public List<String> findByMvc() throws InterruptedException {
         System.out.println("---Start get cliente by MVC--- " + LocalDateTime.now());
 //        List<String> cliente = new ArrayList<>();
 //        cliente.add("Java 8");

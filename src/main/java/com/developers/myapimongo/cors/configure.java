@@ -19,8 +19,6 @@ public class configure implements WebMvcConfigurer {
 
     @Bean
     public WebMvcConfigurer webMvcConfigurer() {
-        System.out.println("------------------------------------------------------------------");
-        System.out.println("INTO webMvcConfigure");
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
