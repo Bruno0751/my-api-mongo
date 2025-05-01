@@ -24,7 +24,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Mono<Cliente> updateCliente(String id, Cliente cliente) {
+    public Mono<Cliente> update(String id, Cliente cliente) {
         return clienteRespository.findById(id).flatMap(
                 existingCliente -> {
                     existingCliente.setName(cliente.getName());

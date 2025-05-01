@@ -44,7 +44,7 @@ public class ClienteController implements ClienteApi {
 
     @Override
     public Flux<Cliente> findAll() {
-        return null;
+        return clienteService.findAll();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ClienteController implements ClienteApi {
         clienteService.existsById(id).flatMap(exists -> {
             if (exists) {
                 cliente.setDate_time(LocalDate.now());
-                return clienteService.updateCliente(id, cliente)
+                return clienteService.update(id, cliente)
                         .map(updatedCliente -> ResponseEntity.ok(updatedCliente));
             } else {
                 return Mono.just("Cliente não existe");
@@ -69,7 +69,6 @@ public class ClienteController implements ClienteApi {
     }
 
     public Mono<Cliente> findOne(@PathVariable String id) {
-        System.out.println("INTO findClienteOne");
         return clienteService.findById(id);
     }
 

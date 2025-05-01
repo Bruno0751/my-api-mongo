@@ -22,14 +22,16 @@ public class Cliente {
 
     @Id
     private String id;
+
     @NotBlank(message = "O campo 'name' não pode ser vazio. Por favor, forneça um valor válido.")
     private String name;
+
     @Nullable
     private String old_year;
+
     @Nullable
     private String height;
-    @NotBlank(message = "O campo 'date_time" +
-            "' não pode ser vazio. Por favor, forneça um valor válido.")
+
     private LocalDate date_time;
 
 }

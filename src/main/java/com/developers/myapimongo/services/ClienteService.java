@@ -10,7 +10,7 @@ public interface ClienteService {
 
     Mono<Cliente> findById(String id);
 
-    Mono<Cliente> updateCliente(String id, Cliente cliente);
+    Mono<Cliente> update(String id, Cliente cliente);
 
     Mono<Cliente> save(Cliente pessoa);
 
